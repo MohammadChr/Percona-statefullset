@@ -1,0 +1,42 @@
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: mystatefulset
+spec:
+  selector:
+    matchLabels:
+      app: percona
+  serviceName: s1
+  replicas: 2
+  template:
+    metadata:
+      labels:
+        app: percona
+    spec:
+      initContainers:
+        - name: check
+          image: busybox
+          volumeMounts:
+          -  mountPath: /etc/my.cnf.d/
+             name: sql-conf
+          command:
+            [
+              "sh",
+              "-c",
+              "S=$(expr $(echo $HOSTNAME | cut -d- -f2) + 1 ) && echo server-id = $S > /etc/my.cnf.d/server-id.cnf"
+            ]
+      containers:
+      - name: myapp
+        image: percona:latest
+        ports:
+        - containerPort: 3306
+          name: percona
+        volumeMounts:
+        -  mountPath: /etc/my.cnf.d/
+           name: sql-conf
+        envFrom:
+          - configMapRef:
+              name: s1
+      volumes:
+      -  name: sql-conf
+         emptyDir: {}
