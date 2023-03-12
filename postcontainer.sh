@@ -5,8 +5,7 @@ if [[ server_id -eq 0 ]]; then
     mysql -uroot -proot -e "GRANT REPLICATION SLAVE ON *.* TO 'replica_user'@'%';"
     mysql -uroot -proot -e "FLUSH PRIVILEGES"
 else
-    mysql -uroot -proot -e "--host=mystatefulset-0.percona --user=replica_user' --password=password"
-#    mysql -uroot -proot -e "CHANGE REPLICATION SOURCE TO SOURCE_HOST='mystatefulset-0.percona', SOURCE_USER='replica_user', SOURCE_PASSWORD='password';"
+    mysql -uroot -proot -e "CHANGE MASTER TO MASTER_HOST='mystatefulset-0.percona', MASTER_USER='replica_user', MASTER_PASSWORD='password';"
 fi
 
 
