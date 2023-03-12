@@ -37,10 +37,10 @@ spec:
         envFrom:
           - configMapRef:
               name: s1
-        lifecycle:
-          postStart:
-            exec:
-              command: ["bin/sh", "-c" , "curl https://raw.githubusercontent.com/MohammadChr/Percona-statefullset/main/postcontainer.sh | bash"]
+#        lifecycle:
+#          postStart:
+#            exec:
+#              command: ["bin/sh", "-c" , "curl https://raw.githubusercontent.com/MohammadChr/Percona-statefullset/main/postcontainer.sh | bash"]
       volumes:
       -  name: sql-conf
          emptyDir: {}

@@ -1,5 +1,5 @@
 sleep 20
-serever_id-$(echo $HOSTNAME | cut -d- -f2)
+server_id=$(echo $HOSTNAME | cut -d- -f2) && echo $server_id
 if [[ server_id -eq 0 ]]; then
     mysql -uroot -proot -e "CREATE USER 'replica_user'@'%' IDENTIFIED WITH mysql_native_password BY 'password';"
     mysql -uroot -proot -e "GRANT REPLICATION SLACE ON *.* TO 'replica_user'@'%';"
