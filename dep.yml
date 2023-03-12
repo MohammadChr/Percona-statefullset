@@ -7,7 +7,7 @@ spec:
     matchLabels:
       app: percona
   serviceName: percona
-  replicas: 2
+  replicas: 3
   template:
     metadata:
       labels:
