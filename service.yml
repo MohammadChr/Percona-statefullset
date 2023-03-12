@@ -2,6 +2,8 @@ apiVersion: v1
 kind: Service
 metadata:
   name: percona
+  labels: 
+    app: percona
 spec:
   selector:
     app: percona

@@ -23,10 +23,10 @@ spec:
             [
               "sh",
               "-c",
-              "S=$(expr $(echo $HOSTNAME | cut -d- -f2) + 1 ) && echo server-id = $S > /etc/my.cnf.d/server-id.cnf"
+              'echo "[mysqld]" > /etc/my.cnf.d/server_id.cnf  && S=$(expr $(echo $HOSTNAME | cut -d- -f2) + 1 ) && echo server-id = $S >> /etc/my.cnf.d/server_id.cnf && echo "log_bin = /var/lib/mysql/mysql-bin.log" >> /etc/my.cnf.d/server_id.cnf'
             ]
       containers:
-      - name: myapp
+      - name: percona
         image: percona:latest
         ports:
         - containerPort: 3306
@@ -37,10 +37,10 @@ spec:
         envFrom:
           - configMapRef:
               name: s1
-        lifecycle:
-          postStart:
-            exec:
-              command: ["bin/sh", "-c" , "curl https://raw.githubusercontent.com/MohammadChr/Percona-statefullset/main/postcontainer.sh | bash"]
+#        lifecycle:
+#          postStart:
+#            exec:
+#              command: ["bin/sh", "-c" , "curl https://raw.githubusercontent.com/MohammadChr/Percona-statefullset/main/postcontainer.sh | bash"]
       volumes:
       -  name: sql-conf
          emptyDir: {}
